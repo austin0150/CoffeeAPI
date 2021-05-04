@@ -8,20 +8,23 @@ using MongoDB.Bson;
 
 namespace Coffee.API.Data
 {
-    public class MongoRepository
+    public class MongoRepository : IMongoRepository
     {
 
         private readonly IMongoDatabase _database;
+        private readonly IMongoCollection<BrewType> _brewTypes;
 
         public MongoRepository (ICoffeeDatabaseConfiguration settings)
         {
             var client = new MongoClient(settings.ConnectionString);
             _database = client.GetDatabase(settings.DatabaseName);
+            _brewTypes = _database.GetCollection<BrewType>(settings.BrewTypeCollectoionName);
         }
 
         public string InsertBrewType(BrewType type)
         {
-            return "";
+            _brewTypes.InsertOne(type);
+            return type.Name;
         }
 
         public BrewType GetBrewType(string id)

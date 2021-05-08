@@ -8,6 +8,7 @@ namespace Coffee.API.Models
     public class CoffeeDatabaseConfiguration :ICoffeeDatabaseConfiguration
     {
         public string BrewTypeCollectoionName { get; set; }
+        public string BeanTypeCollectionName { get; set; }
         public string ConnectionString { get; set; }
         public string DatabaseName { get; set; }
     }
@@ -15,6 +16,7 @@ namespace Coffee.API.Models
     public interface ICoffeeDatabaseConfiguration
     {
         public string BrewTypeCollectoionName { get; set; }
+        public string BeanTypeCollectionName { get; set; }
         public string ConnectionString { get; set; }
         public string DatabaseName { get; set; }
     }

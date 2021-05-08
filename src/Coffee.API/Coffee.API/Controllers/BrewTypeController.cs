@@ -19,13 +19,93 @@ namespace Coffee.API.Controllers
             _mongoRepo = mongoRepo;
         }
 
-        public IActionResult Get([FromBody] CoffeeInfoRequest request)
+        [Route("/GetBrewType")]
+        [ActionName("GET")]
+        public async Task<IActionResult> Get([FromBody] string BrewTypeName)
         {
-            return Ok();
+            if (String.IsNullOrEmpty(BrewTypeName))
+            {
+                List<string> errors = new List<string>();
+                errors.Add("BrewTypeName cannot be null or empty");
+
+                ValidationErorrs errorObj = new ValidationErorrs();
+                errorObj.RequestErrors = errors;
+                errorObj.RequestObject = BrewTypeName;
+
+                return StatusCode(400, errorObj);
+            }
+            
+            BrewType result = await _mongoRepo.GetBrewType(BrewTypeName);
+
+            return StatusCode(200,result);
+
         }
 
-        [Route("/BrewType")]
-        [ActionName("Put")]
+        [Route("/GetBrewTypeByID")]
+        [ActionName("GET")]
+        public async Task<IActionResult> GetID([FromBody] string BrewTypeID)
+        {
+            if (String.IsNullOrEmpty(BrewTypeID))
+            {
+                List<string> errors = new List<string>();
+                errors.Add("BrewTypeID cannot be null or empty");
+
+                ValidationErorrs errorObj = new ValidationErorrs();
+                errorObj.RequestErrors = errors;
+                errorObj.RequestObject = BrewTypeID;
+
+                return StatusCode(400, errorObj);
+            }
+
+            BrewType result = await _mongoRepo.GetBrewTypeByID(BrewTypeID);
+
+            return StatusCode(200, result);
+        }
+
+        [Route("/SearchBrewTypeName")]
+        [ActionName("GET")]
+        public async Task<IActionResult> SearchByName([FromBody] string BrewTypeName)
+        {
+            if (String.IsNullOrEmpty(BrewTypeName))
+            {
+                List<string> errors = new List<string>();
+                errors.Add("BrewTypeName cannot be null or empty");
+
+                ValidationErorrs errorObj = new ValidationErorrs();
+                errorObj.RequestErrors = errors;
+                errorObj.RequestObject = BrewTypeName;
+
+                return StatusCode(400, errorObj);
+            }
+
+            List<BrewType> result = await _mongoRepo.SearchBrewTypeName(BrewTypeName);
+
+            return StatusCode(200, result);
+        }
+
+        [Route("/SearchBrewTypeDesc")]
+        [ActionName("GET")]
+        public async Task<IActionResult> SearchByDesc([FromBody] string BrewTypeDesc)
+        {
+            if (String.IsNullOrEmpty(BrewTypeDesc))
+            {
+                List<string> errors = new List<string>();
+                errors.Add("BrewTypeDesc cannot be null or empty");
+
+                ValidationErorrs errorObj = new ValidationErorrs();
+                errorObj.RequestErrors = errors;
+                errorObj.RequestObject = BrewTypeDesc;
+
+                return StatusCode(400, errorObj);
+            }
+
+            List<BrewType> result = await _mongoRepo.SearchBrewTypeDescription(BrewTypeDesc);
+
+            return StatusCode(200, result);
+        }
+
+        [Route("/AddBrewType")]
+        [ActionName("PUT")]
         public IActionResult PutBrewType([FromBody] BrewType type)
         {
             BrewType newBrewType = type;
@@ -45,6 +125,28 @@ namespace Coffee.API.Controllers
 
             return StatusCode(200, newBrewType);
 
+        }
+
+        [Route("/UpdateBrewType")]
+        [ActionName("POST")]
+        public async Task<IActionResult> UpdateBrewType([FromBody] BrewType type)
+        {
+            BrewType newBrewType = type;
+
+            //Validate the request
+            List<string> errors = BrewTypeValidation.ValidateUpdateBrewType(type);
+            if (errors.Count > 0)
+            {
+                ValidationErorrs errorObj = new ValidationErorrs();
+                errorObj.RequestErrors = errors;
+                errorObj.RequestObject = newBrewType;
+
+                return StatusCode(400, errorObj);
+            }
+
+            await _mongoRepo.UpdateBrewType(newBrewType);
+
+            return StatusCode(200, newBrewType);
         }
     }
 }

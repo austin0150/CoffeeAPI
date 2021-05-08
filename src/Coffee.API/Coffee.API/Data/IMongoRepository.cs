@@ -8,8 +8,11 @@ namespace Coffee.API.Data
 {
     public interface IMongoRepository
     {
-        public string InsertBrewType(BrewType type);
-
-        public BrewType GetBrewType(string id);
+        public BrewType InsertBrewType(BrewType type);
+        public Task<BrewType> UpdateBrewType(BrewType type);
+        public Task<BrewType> GetBrewType(string name);
+        public Task<BrewType> GetBrewTypeByID(string id);
+        public Task<List<BrewType>> SearchBrewTypeDescription(string desc);
+        public Task<List<BrewType>> SearchBrewTypeName(string name);
     }
 }

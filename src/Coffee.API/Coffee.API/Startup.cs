@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Coffee.API.Data;
 using Coffee.API.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -32,6 +33,8 @@ namespace Coffee.API
 
             services.AddSingleton<ICoffeeDatabaseConfiguration>(sp =>
                 sp.GetRequiredService<IOptions<CoffeeDatabaseConfiguration>>().Value);
+
+            services.AddSingleton<IMongoRepository, MongoRepository>();
 
             services.AddControllers();
         }

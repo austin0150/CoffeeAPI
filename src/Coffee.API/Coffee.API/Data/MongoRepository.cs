@@ -72,6 +72,18 @@ namespace Coffee.API.Data
             return await _brewTypes.Find(filter).ToListAsync();
 
         }
+        public async Task<bool> DeleteBrewType(BrewType type)
+        {
+            var deleteOneResult = await _brewTypes.DeleteOneAsync(doc => doc.Id == type.Id);
+            if (deleteOneResult.IsAcknowledged)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
 
         //BEANTYPE FUNCTIONS
@@ -86,6 +98,32 @@ namespace Coffee.API.Data
         {
             var filter = Builders<BeanType>.Filter.Eq(beanType => beanType.Name, name);
             return await _beanTypes.Find(filter).FirstOrDefaultAsync();
+        }
+
+        public async Task<BeanType> UpdateBeanType(BeanType type)
+        {
+            var replaceOneResult = await _beanTypes.ReplaceOneAsync(doc => doc.Id == type.Id, type);
+            if (replaceOneResult.IsAcknowledged)
+            {
+                return type;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public async Task<bool> DeleteBeanType(BeanType type)
+        {
+            var deleteOneResult = await _beanTypes.DeleteOneAsync(doc => doc.Id == type.Id);
+            if(deleteOneResult.IsAcknowledged)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

@@ -5,7 +5,10 @@ using System.Threading.Tasks;
 
 namespace Coffee.API.Models
 {
-    public class CoffeeRequest
+    public class Roast
     {
+        public string Name { get; set; }
+        public string Description { get; set; }
+
     }
 }

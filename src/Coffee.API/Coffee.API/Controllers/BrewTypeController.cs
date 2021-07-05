@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 
 namespace Coffee.API.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
     public class BrewTypeController : ControllerBase
     {
@@ -105,7 +104,7 @@ namespace Coffee.API.Controllers
         }
 
         [Route("/AddBrewType")]
-        [ActionName("PUT")]
+        [ActionName("POST")]
         public IActionResult PutBrewType([FromBody] BrewType type)
         {
             BrewType newBrewType = type;
@@ -128,7 +127,7 @@ namespace Coffee.API.Controllers
         }
 
         [Route("/UpdateBrewType")]
-        [ActionName("POST")]
+        [ActionName("PUT")]
         public async Task<IActionResult> UpdateBrewType([FromBody] BrewType type)
         {
             BrewType newBrewType = type;

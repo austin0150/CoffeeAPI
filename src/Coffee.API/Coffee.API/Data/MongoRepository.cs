@@ -81,5 +81,11 @@ namespace Coffee.API.Data
             _beanTypes.InsertOne(type);
             return type;
         }
+
+        public async Task<BeanType> GetBeanType(string name)
+        {
+            var filter = Builders<BeanType>.Filter.Eq(beanType => beanType.Name, name);
+            return await _beanTypes.Find(filter).FirstOrDefaultAsync();
+        }
     }
 }

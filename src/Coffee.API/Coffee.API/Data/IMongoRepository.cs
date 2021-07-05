@@ -14,5 +14,7 @@ namespace Coffee.API.Data
         public Task<BrewType> GetBrewTypeByID(string id);
         public Task<List<BrewType>> SearchBrewTypeDescription(string desc);
         public Task<List<BrewType>> SearchBrewTypeName(string name);
+        public BeanType InsertBeanType(BeanType type);
+        public Task<BeanType> GetBeanType(string name);
     }
 }
